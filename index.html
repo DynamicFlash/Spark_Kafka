@@ -1,0 +1,244 @@
+<!DOCTYPE HTML>
+<!--
+	Dimension by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Dimension by HTML5 UP</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<div class="logo">
+							<span class="icon fa-gem"></span>
+						</div>
+						<div class="content">
+							<div class="inner">
+								<h1>Spark secure Structured Streaming using Kafka </h1>
+								<p>Secured using SASL_SSL and SCRAM-SHA-256</p>
+                                <h3><a href="https://dynamicflash.github.io/Porfolio/#page-top">By Aldrin Fernandes</a></h3>
+							</div>
+						</div>
+                    <div>
+						<nav>
+							<ul >
+								<li><a href="#intro">Intro</a></li>
+								<li><a href="#kafka">Secure Kafka Cluster</a></li>
+								<li><a href="#producer">Producer</a></li>
+								<li><a href="#consumer">Consumer</a></li>
+                                <li><a href="#results">Results</a></li>
+                                <li><a href="#info">Info</a></li>
+								<!--<li><a href="#elements">Elements</a></li>-->
+							</ul>
+						</nav>
+                        </div>
+					</header>
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- Intro -->
+							<article id="intro">
+								<h2 class="major">Intro</h2>
+								<span class="image main"><img src="images/pic01.jpg" alt="" /></span>
+								<p>Spark Structured Streaming has always been one of the most facinating things of Spark. Wow! Analytics task which can achieve end-to-end latencies as low as 1 millisecond, I mean that is really mind blowing. This article is not regarding Spark Structure Streaming using Kafka which one can easily find in the <a href="https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html">Spark official documentation</a>, but this is regarding secure Spark Structured Streaming using Kafka.</p>
+								<p>All the Spark Structured Streaming out there are using unsecured kafka cluster. This article is seperated into the below main subtopic:</p>
+                                    <ol>
+                                        <li><a href="#kafka">Secure Kafka cluster using Cloud Karafka "Duck Developer Account"</a></li>
+                                        <li><a href="#producer">Producer using vanila Kafka-Confluent library</a></li>
+                                        <li><a href="#consumer">Consumer Spark Structure Streaming</a></li>
+                                        <li><a href="#results">Results</a></li>
+                                    </ol>
+                                
+							</article>
+
+						<!-- Work -->
+							<article id="kafka">
+								<h2 class="major">Secure Kafka Cluster</h2>
+								<span class="image main"><img src="images/pic02.jpg" alt="" /></span>
+								<ol>
+                                    <li>Lets use the service from <a href="https://www.cloudkarafka.com/">Cloud Karafka</a> for the secure cluster, we will use a Duck Developer account.</li>
+                                    <li>Click <b>Login</b> in top right corner(you can use the avaialble login methods too.</li>
+                                    <li>Input a <b>Team Name</b>, agree to <b>Terms of Service</b> and click yes or no for <b>GDPR</b> and click create. As we are using it for educational purpose it doesn't really matter.</li>
+                                    <li>Once the dashboard renders, click on <b>Create New Instance</b> and follow along the procedure.</li>
+                                    <li>In the <b>Create New Instance</b>, select a <b>Plan (Developer Duck)</b> and <b>Name</b>.</li>
+                                    <li>In the <b>Region</b> page, select a <b>Data center</b>, anything is fine. Click on <b>Review</b>.</li>
+                                    <li>In the <b>Confirm new instance</b> page, reviewe Data and click on <b>Create instance</b>.</li>
+                                    <li><b>Instance</b> dasboard will appear, click the name as you had given to cluster in <b>Step 5</b> and details dashboard will appear.</li>
+                                </ol>
+                                <h3>Let's setup a topic to write to</h3>
+                                <ol>
+                                    <li>Click on the <b>Details</b> tab of the side panel.</li>
+                                    <li>At the bottom of the dashboard there are <b>Connection details.</b>
+                                    <span class="image main"><img src="images/connect_details.png" alt="connect_details" /></span></li>
+                                    <li>The <b>CLOUDKARAFKA_USERNAME, CLOUDKARAFKA_PASSWORD</b> will be used to connect to <b>CLOUDKARAFKA_BROKERS</b>. Karafka provides 3 brokers. <b>The Topic prefix</b> is just <b>CLOUDKARAFKA_USERNAME</b> followed by '-'.</li>
+                                    <li>Once the dashboard renders, click on <b>Create New Instance</b> and follow along the procedure.</li>
+                                    <li>Next lets create topic for consumer, click on the <b>TOPICS</b> option in slidebar. A default topic(<b>CLOUDKARAFKA_USERNAME-default</b>) is always present. We can also create a new one by using the following line and adding characters in the blank.</li>
+                                    <li>We can test our consumer and producer using the <b>Browser</b> tab in the sidebar 
+                                        <ol>
+                                            <li>We first input the topic name in 'Topic' field in the consumer panel and click on <b>Consume</b></li>
+                                            <li>We do the same in for the <b>Producer</b> panel, provide input in the 'Messgae' field and click<b>Produce</b></li>
+                                        </ol>
+                                        <span class="image main"><img src="images/browser operation.png" alt="connect_details" /></span>
+                                    <span class="image main"><img src="images/browser%20operation_result.png" alt="connect_details" /></span>
+                                    </li>
+                                    <li>We are done, lets now implement the <b><a href="#producer">Producer</a></b> .</li>
+                                </ol>
+							</article>
+
+						<!-- About -->
+							<article id="producer">
+								<h3 class="major">Producer</h3>
+								<span class="image main"><img src="images/pic03.jpg" alt="" /></span>
+                                <p>The source code for producer can be accesed using <b><a href="#producer">sim-producer.py</a></b>.</p>
+                                
+								<p>This is a vanila implementation using the confluent-kafka version 1.8.2 library. We require the paramerters <b>CLOUDKARAFKA_BROKERS, CLOUDKARAFKA_USERNAME, CLOUDKARAFKA_PASSWORD, CLOUDKARAFKA_TOPIC</b>. For information on the mentioned variable, please check out the section regarding setting up the <a href="#kafka">secure cluster of Cloud Karafka</a> and come back to this section.</p>
+                                
+                                <p>We are simulating a stream of data by sending lines of a book we download. Now lets move on to the <b><a href="#consumer">Consumer</a> </b>section</p>
+							</article>
+
+						<!-- Contact -->
+							<article id="consumer">
+								<h2 class="major">Consumer</h2>
+
+								<span class="image main"><img src="images/pic04.jpg" alt="" /></span>
+                                <span class="image main"><a href="#producer">spark_databricks_consumer_nootebook.py</a></span>
+                                
+								<p>We are going to implement the consumer using Spark Structure Streaming API. We will use Databricks as the managed environment for Spark, and use python to build our DAG. We could equally use a local Spark environment to deploy our code Spark logic using the below commmand :<br><br>
+                                    <code class="image">spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.1.3,org.apache.kafka:kafka-clients:2.8.0 --archives BDKafka.tar.gz#environment sim_consumer.py
+                                    </code>
+                                    <br>
+                                    <br>
+                                    The <b>BDKafka.tar.gz</b> is the python environment with all python dependencies packed using <a href="https://pypi.org/project/venv-pack/"><b>venv-pack</b></a>. The packages arguments as specified by spark-submit help is :
+                                    <br>
+                                    <br>
+                                    <code class="image"> --packages:Comma-separated list of maven coordinates of jars to include on the driver and executor classpaths. Will search the local maven repo, then maven central and any additional remote repositories given by --repositories. The format for the coordinates should be groupId:artifactId:version.  
+                                    </code>
+                                    <br> 
+                                    <br> 
+                                    <b>org.apache.spark:spark-sql-kafka-0-10_2.12:3.1.3</b>
+                                    <br>
+                                    groupId : org.apache.spark
+                                    <br>
+                                    artifactId : spark-sql-kafka-0-10_2.12 ( spark-sql-kafka version is 0.10, scala version is 2.12)
+                                    <br>
+                                    version : 3.1.3( Spark version )
+                                    <br>
+                                </p>
+                                <h3>For Databricks</h3>
+                                
+                                <ol>
+                                    <li>We need to install a library to authenticate to secure cluster. Click on compute and then click on the cluster in which you want install the library.
+                                    <span class="image main"><img src="images/databricks_cluster.PNG" alt="" /></span>
+                                    </li>
+                                    <li>Select the <b>Libraries</b> tab and click on <b>Install new</b>. 
+                                    <span class="image main"><img src="images/databricks_cluster_library.PNG" alt="" /></span>
+                                    </li>
+                                    <li>Select the <b>Maven</b> tab and click on <b>Search Package</b>. 
+                                    <span class="image main"><img src="images/kafka-client.PNG" alt="" /></span>
+                                    </li>
+                                    <li>In the <b>Search</b> field enter <b>kafka-clients</b> and select the latest version. 
+                                    <span class="image main"><img src="images/kafka-client2.PNG" alt="" /></span>
+                                    </li>
+                                    <li>They click on <b>Install</b>. 
+                                    <span class="image main"><img src="images/kafka-client3.PNG" alt="" /></span>
+                                    </li>
+                                    <li>Attach this cluster to notebook of the consumer.
+                                    </li>
+                                </ol>
+
+                                <h2>Authentication Using Jaas</h2>
+                                <p>The Java Authentication and Authorization Service (JAAS) login configuration file is pretty much a standard when it comes to authentication, it contains one or more entries that specify authentication technologies to be used by applications. The JAAS login configuration file must include an entry specifically for the driver. In addition, the login configuration file must be referenced either by setting the java.security.auth.login.config system property or by setting up a default configuration using the Java security properties. We will be setting the <b>java.security.auth.login.config</b> system property in our implementation. we will set the property using </p>
+                                    <code class="image main">
+                                        spark.sparkContext.setSystemProperty(
+                                        'java.security.auth.login.config',<br>
+                                        'location_of_the_file')     
+                                    </code>
+                                <p> We are going to use a JAAS patternas described below:<br>
+                                    <code class="image main">
+                                        entry_name {
+                                        login_module flag_value module_options
+                                            };
+                                    </code>
+                                    Our implementation will use entry_name as <b>KafkaClient</b>, login module will be <b>org.apache.kafka.common.security.scram.ScramLoginModule</b> as Cloud Karafka uses SCRAM authentication and module options <b>debug=true username=CLOUDKARAFKA_USERNAME,password=CLOUDKARAFKA_PASSWORD</b>. If you want information on how to get values of <b>CLOUDKARAFKA_USERNAME, CLOUDKARAFKA_PASSWORD</b>, you can go through the section on how to setup <a href="#kafka">Secure Kafka Cluster</a>.
+                                    <code class="image main">
+                                        KafkaClient {<br>
+                                        org.apache.kafka.common.security.scram.ScramLoginModule required<br>
+                                        debug=true<br>
+                                        username=CLOUDKARAFKA_USERNAME<br>
+                                        password=CLOUDKARAFKA_PASSWORD;<br>
+                                        };
+                                    </code>
+                                    
+                                    Even though this implementation is using SCRAM authentication we can just as well use other mechanisms such as Oauth and using <b>login_module</b> as <b>org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule</b>. Lets checkout our current <a href="#results">Results.</a>
+                                </p>
+                                
+							</article>
+
+				    <article id="results">
+				                <h3 class="major">Results</h3>
+								<span class="image main"><img src="images/pic05
+.jpg" alt="" /></span>
+								<p>Our implementation was using an interupted thread i.e. we were using a UDF for removing the stop words, we had fairly good results.</p>
+                        <h3>Our spark jobs while streaming</h3>
+                        <p><span class="image main"><img src="images/kafka-client4.PNG" alt="" /></span></p>
+                        <h3>Our Spark Structure Streaming Dataframe @T1</h3>
+                        <p><span class="image main"><img src="images/kafka-client5.PNG" alt="" /></span></p>
+                        <h3>Our Spark Structure Streaming Dataframe @T2</h3>
+                        <p><span class="image main"><img src="images/kafka-client6.PNG" alt="" /></span></p>
+
+				        </article>
+                        
+                    <article id="info">
+				        <h3 class="major">Info</h3>
+				        <span class="image main"><img src="images/pic06.jpg" alt="" /></span>
+                        <p>Hello Everyone, this is Aldrin Fernandes. I am a Machine Learning Engineer for a Banking client at TATA Consultancy Services. Spark is extensively being used to train Machine Learning models using exponential amounts of data in the industry. This is mainly due to Spark's MLlib, performance and it's ability to integrate with most commonly used systems like Kafka.</p>
+                        <p>Since there wasn't any article or tutorial providing information regarding connecting to secure Kafka cluster, I took this opportunity to provide information on how to connect to a secure cluster. This solution can be extended to other authentication mechanisms such as Kerberos, Oauth etc.</p>
+                        <h3>Contact info</h3>
+                        <p>We can connect through email : aldrin.a.fernandes@gmail.com, use tag <b>[sparkKafka]</b>.</p>
+                        <h3>Attributes</h3>
+                        <p>
+                            Html Template : <b><a href="https://twitter.com/ajlkn">@ajlkn</a></b>
+                            <br>
+                            Background Image : <b><a href="https://burst.shopify.com/@ndekhors">@Nicole De Khors</a></b>
+                            <br>
+                            Intro, Cluster, Producer, Consumer cover images : <b><a href="https://www.streamlinehq.com">@Streamline</a></b>
+                        </p>
+				        </article>
+
+                        
+                        
+                        
+                        
+					</div>
+                
+                    
+				<!-- Footer -->
+					<footer id="footer">
+						<p class="copyright">&copy; Content by <a href="https://dynamicflash.github.io/Porfolio/#page-top">Aldrin Fernandes</a>.</p>
+					</footer>
+
+			</div>
+
+		<!-- BG -->
+			<div id="bg"></div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
