@@ -100,7 +100,7 @@
 							<article id="producer">
 								<h3 class="major">Producer</h3>
 								<span class="image main"><img src="images/pic03.jpg" alt="" /></span>
-                                <p>The source code for producer can be accesed using <b><a href="#producer">sim-producer.py</a></b>.</p>
+                                <p>The source code for producer can be accesed using <b><a href="https://github.com/DynamicFlash/Spark_Kafka/blob/main/code/kafka_producer.py">kafka_producer.py</a></b>.</p>
                                 
 								<p>This is a vanila implementation using the confluent-kafka version 1.8.2 library. We require the paramerters <b>CLOUDKARAFKA_BROKERS, CLOUDKARAFKA_USERNAME, CLOUDKARAFKA_PASSWORD, CLOUDKARAFKA_TOPIC</b>. For information on the mentioned variable, please check out the section regarding setting up the <a href="#kafka">secure cluster of Cloud Karafka</a> and come back to this section.</p>
                                 
@@ -112,7 +112,7 @@
 								<h2 class="major">Consumer</h2>
 
 								<span class="image main"><img src="images/pic04.jpg" alt="" /></span>
-                                <span class="image main"><a href="#producer">spark_databricks_consumer_nootebook.py</a></span>
+                                <span class="image main"><a href="#https://github.com/DynamicFlash/Spark_Kafka/blob/main/code/spark_kafka_consumer.ipynb">spark_kafka_consumer</a></span>
                                 
 								<p>We are going to implement the consumer using Spark Structure Streaming API. We will use Databricks as the managed environment for Spark, and use python to build our DAG. We could equally use a local Spark environment to deploy our code Spark logic using the below commmand :<br><br>
                                     <code class="image">spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.1.3,org.apache.kafka:kafka-clients:2.8.0 --archives BDKafka.tar.gz#environment sim_consumer.py
